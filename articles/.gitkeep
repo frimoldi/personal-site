@@ -1,0 +1,6 @@
+# Articles live here, one folder per group:
+#
+#   articles/writing/my-post.md   ->  /writing/my-post
+#
+# A new folder is a new section on the homepage; a new .md file is a new link.
+# See the README for the frontmatter fields.

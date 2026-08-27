@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# personal-site
 
-## Getting Started
-
-First, run the development server:
+Minimal personal site. A heading, a sub-heading, and grouped lists of links.
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Adding content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Everything on the homepage comes from markdown files. There is no config list to
+update — a new `.md` file is a new link, and a new folder is a new group.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+articles/
+  open-source/
+    ledgerctl.md      ->  /open-source/ledgerctl
+  writing/
+    reading-a-flamegraph.md
+```
 
-## Learn More
+### Frontmatter
 
-To learn more about Next.js, take a look at the following resources:
+```markdown
+---
+title: Reading a flamegraph        # defaults to the filename, titleized
+description: A practical guide     # the dim middle column
+date: 2024-11-02                   # the year column; also sorts the group
+group: Writing                     # section heading; defaults to the folder name
+order: 3                           # position of the section on the page
+url: https://example.com/post      # optional — link out instead of rendering a page
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Body markdown here. GFM, code blocks with syntax highlighting, tables.
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All fields are optional. With `url` set, the entry links straight out and no
+article page is generated; without it, the body is rendered at
+`/[group]/[slug]`.
 
-## Deploy on Vercel
+Within a group, entries sort newest first. Groups sort by `order`, then name.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Editing the header and footer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Name, tagline, and footer links live in `lib/site.ts`.

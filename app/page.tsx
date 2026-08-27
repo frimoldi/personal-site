@@ -1,69 +1,64 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import Footer from "@/components/Footer";
+import ThemeToggle from "@/components/ThemeToggle";
+import { getGroups } from "@/lib/articles";
+import { site } from "@/lib/site";
 
-export default function Home() {
+export default async function Home() {
+  const groups = await getGroups();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="page">
+      <div className="shell">
+        <header className="header">
+          <div className="identity">
+            <h1 className="name">{site.name}</h1>
+            <p className="tagline">
+              {site.tagline.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
+          </div>
+          <ThemeToggle />
+        </header>
+
+        <main className="groups">
+          {groups.map((group) => (
+            <section key={group.slug} className="group">
+              <h2 className="groupTitle">{group.name}</h2>
+              <div className="list">
+                {group.articles.map((article) => {
+                  const content = (
+                    <>
+                      <span className="itemTitle">{article.title}</span>
+                      <span className="itemDescription">{article.description}</span>
+                      <span className="itemYear">{article.year}</span>
+                    </>
+                  );
+
+                  return article.external ? (
+                    <a
+                      key={article.slug}
+                      className="item"
+                      href={article.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <Link key={article.slug} className="item" href={article.href}>
+                      {content}
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </main>
+
+        <Footer />
+      </div>
     </div>
   );
 }
