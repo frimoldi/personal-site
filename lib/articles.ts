@@ -59,7 +59,8 @@ async function readGroup(groupSlug: string): Promise<Group | null> {
         title: typeof data.title === "string" ? data.title : titleize(slug),
         description: typeof data.description === "string" ? data.description : "",
         date,
-        year: date.slice(0, 4),
+        // `showYear: false` orders an entry by date without surfacing the year.
+        year: data.showYear === false ? "" : date.slice(0, 4),
         href: url || `/${groupSlug}/${slug}`,
         external: Boolean(url),
         order: typeof data.order === "number" ? data.order : 0,

@@ -4,9 +4,9 @@ export const site = {
   title: "fran rimoldi",
   // One line per entry.
   tagline: [
-    "software engineer.",
-    "products 0 → 1.",
-    "i haven't manually written a single line of code in 2026.",
+    "Software engineer.",
+    "Products 0 → 1.",
+    "AI pilled.",
   ],
   links: [
     { label: "francisco.rimoldi@gmail.com", href: "mailto:francisco.rimoldi@gmail.com" },
